@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid black;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.done {
+  text-decoration: line-through;
+}
+#list{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem;
+}
+#todos{
+    padding-left: 40px;
+    font-size: 30px;
+}
