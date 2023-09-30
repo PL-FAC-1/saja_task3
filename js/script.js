@@ -11,11 +11,11 @@ const count = document.getElementById("count");
 const checkbox = document.getElementById("itemcheck");
 
 addButton.addEventListener("click", () => (addForm.style.display = "flex"));
-let id = localStorage.getItem('counter');
+let id = localStorage.getItem("counter");
 if (id === null) {
-    id = 0;
+  id = 0;
 } else {
-    id++;
+  id++;
 }
 localStorage.setItem("counter", id);
 let number = JSON.parse(window.localStorage.getItem("tasks")).length;
@@ -72,15 +72,11 @@ addForm.addEventListener("submit", (event) => {
   diplayToDos();
   addToLocalStorage();
 });
-function lengthCheck() {
-  return (
-    todoTitle.value.length &&
-    tododescription.value.length &&
-    todoTime.value.length
-  );
+function lengthCheck(title, description, time) {
+  return title.value.length && description.value.length && time.value.length;
 }
 function AddToDo() {
-  if (lengthCheck()) {
+  if (lengthCheck(todoTitle, tododescription, todoTime)) {
     addForm.style.display = "none";
     const title = todoTitle.value;
     const description = tododescription.value;
@@ -105,10 +101,10 @@ function diplayToDos() {
   todoList.innerHTML = "";
   todos.forEach((todo) => {
     let tododiv = document.createElement("div");
-    tododiv.className = "list__todo";
+    tododiv.className = "list__todo flex";
     tododiv.setAttribute("data-id", todo.id);
     let checkDiv = document.createElement("div");
-    checkDiv.className = "todo__check";
+    checkDiv.className = "todo__check flex";
     let checkLabel = document.createElement("label");
     checkLabel.setAttribute("for", `itemcheck${todo.id}`);
     checkLabel.innerHTML = "CheckTask";
@@ -123,17 +119,17 @@ function diplayToDos() {
       ? (todoContent.style.textDecoration = "line-through")
       : (todoContent.style.textDecoration = "none");
     let title = document.createElement("p");
-    title.className = "todo__content__title";
+    title.className = "content__title";
     title.appendChild(document.createTextNode(todo.title));
     let description = document.createElement("p");
-    description.className = "todo__content__description";
+    description.className = "content__description";
     description.appendChild(document.createTextNode(todo.description));
     let time = document.createElement("p");
     time.appendChild(document.createTextNode(todo.time));
-    time.className = "todo__content__time";
+    time.className = "content__time";
     todoContent.append(title, description, time);
     let todo__buttons = document.createElement("div");
-    todo__buttons.className = "todo__buttons";
+    todo__buttons.className = "flex todo__buttons";
     let edit = document.createElement("button");
     edit.appendChild(document.createTextNode("Edit"));
     edit.className = "edit";
@@ -146,10 +142,11 @@ function diplayToDos() {
     tododiv.append(checkDiv, todoContent, todo__buttons);
   });
 }
+
 function addToLocalStorage() {
   window.localStorage.setItem("tasks", JSON.stringify(todos));
-
 }
+
 function getfromLocalStorage() {
   let data = window.localStorage.getItem("tasks");
   if (data) {
@@ -157,6 +154,7 @@ function getfromLocalStorage() {
     diplayToDos(tasks);
   }
 }
+
 function deleteTodo(todoId) {
   todos = todos.filter((todo) => todo.id != todoId);
   addToLocalStorage(todos);
@@ -165,7 +163,7 @@ function deleteTodo(todoId) {
 }
 
 function editTodo(todo) {
-  editDiv.innerHTML="";
+  editDiv.innerHTML = "";
   let editForm = document.createElement("form");
   editForm.className = "main__editForm";
   let titlelabel = document.createElement("label");
@@ -208,25 +206,20 @@ function editTodo(todo) {
   editDiv.appendChild(editForm);
   editForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    todos.map((todoItem) => {
-      if (todoItem.id == todo.id) {
-        todoItem.title = titleInput.value;
-        todoItem.description = descriptionInput.value;
-        todoItem.time = timeInput.value;
-      }
-    });
-    mainStatment.style.display = "flex";
-    editForm.remove();
-    addToLocalStorage(todos);
-    getfromLocalStorage();
+    if (lengthCheck(titleInput, descriptionInput, timeInput)) {
+      todos.map((todoItem) => {
+        if (todoItem.id == todo.id) {
+          todoItem.title = titleInput.value;
+          todoItem.description = descriptionInput.value;
+          todoItem.time = timeInput.value;
+        }
+      });
+      mainStatment.style.display = "flex";
+      editForm.remove();
+      addToLocalStorage(todos);
+      getfromLocalStorage();
+    } else {
+      alert("plaese fill all fields");
+    }
   });
 }
-// editDiv.innerHTML += `<form class="main__editForm">
-//   <label for="title">Title:</label>
-//   <input type="text" id="title" class="editform__input" value="${todo.title}">
-//   <label for="description">Description:</label>
-//   <input type="text" id="description" class="editform__input" value="${todo.description}"/>
-//   <label for="time">Time::</label>
-//   <input type="text" id="time" class="editform__input" value="${todo.time}"/>
-//   <input type="submit" value="save" class="editform__save"/>
-// </form>`;

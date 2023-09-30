@@ -3,21 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>To do list</title>
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/media.css" />
   </head>
-  <body>
-    <div class="body__div">
-      <header role="banner" class="header">
+  <body class="flex body">
+    <div class="body__container">
+      <header role="banner" class="flex container__header">
         <h1>don't forget to ...</h1>
       </header>
-      <div id="mainStatment" class="main__paragraph">
-        <p>Tasks left:</p>
-        <p id="count">0</p>
-        <button class="paragraph__button" id="addButton">Add Task +</button>
-      </div>
-      <main role="main" class="main">
+      <main role="main" class="container__main">
+        <div id="mainStatment" class="flex main__paragraph">
+          <p>Tasks left:</p>
+          <p id="count">0</p>
+          <button class="paragraph__button" id="addButton">Add Task +</button>
+        </div>
         <div class="main__add">
           <form class="main__addForm" id="addForm">
             <label for="todoTitle">Title:</label>
@@ -39,21 +39,9 @@
             <input type="submit" value="Add" class="addForm__submit" />
           </form>
         </div>
+
         <div class="main__edit" id="editDiv"></div>
-        <div role="region" class="main__list" id="todoList">
-          <!-- <div class="list__todo" id="0">
-            <input type="checkbox" />
-            <div class="todo__content">
-              <p>Do Homework</p>
-              <p>Arabic , English and Math</p>
-              <p>12:5pm</p>
-            </div>
-            <div class="todo__buttons">
-              <button>Edit</button>
-              <button>Remove</button>
-            </div>
-          </div> -->
-        </div>
+        <div role="region" class="main__list" id="todoList"></div>
       </main>
       <script type="text/javascript" src="../js/script.js"></script>
     </div>

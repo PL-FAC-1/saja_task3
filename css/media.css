@@ -1,4 +1,7 @@
 @media (max-width: 1000px) {
+  .body {
+    padding: 2rem 4rem;
+  }
   .todo__content {
     text-align: center;
   }
@@ -6,9 +9,6 @@
     flex-direction: column;
     gap: 0.5rem;
     justify-content: center;
-  }
-  body {
-    padding: 2rem 4rem;
   }
 
   .main__paragraph {
