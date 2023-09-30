@@ -5,51 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/media.css" />
   </head>
   <body>
-    <header class="header">
-      <h1>To Do List</h1>
-    </header>
-    <main class="main">
-        <div class="main__count">
-            <p>
-                Todos are:
-            </p>
-            <p id="todos">0</p>
+    <div class="body__div">
+      <header role="banner" class="header">
+        <h1>don't forget to ...</h1>
+      </header>
+      <div id="mainStatment" class="main__paragraph">
+        <p>Tasks left:</p>
+        <p id="count">0</p>
+        <button class="paragraph__button" id="addButton">Add Task +</button>
+      </div>
+      <main role="main" class="main">
+        <div class="main__add">
+          <form class="main__addForm" id="addForm">
+            <label for="todoTitle">Title:</label>
+            <input
+              type="text"
+              class="addForm__input"
+              id="todoTitle"
+              placeholder="Enter TO DO title"
+            />
+            <label for="tododescription">Description:</label>
+            <input
+              type="text"
+              class="addForm__input"
+              id="tododescription"
+              placeholder="Enter TO DO description"
+            />
+            <label for="todoTime">Time limit:</label>
+            <input type="time" class="addForm__input" id="todoTime" />
+            <input type="submit" value="Add" class="addForm__submit" />
+          </form>
         </div>
-      <form class="main__form">
-        <input
-          class="form__input"
-          id="title"
-          type="text"
-          placeholder="Enter title"
-          required
-        />
-        <input
-          class="form__input"
-          id="descrption"
-          type="text"
-          placeholder="Enter descrition"
-          required
-        />
-        <input
-          class="form__input"
-          id="time"
-          type="text"
-          placeholder="Enter time"
-          required
-        />
-        <button
-          class="form__submit"
-          type="submit"
-          id="enter"
-          class="form__submit"
-        >
-          Add!
-        </button>
-      </form>
-      <div id="list" class="main__list"></div>
-    </main>
-    <script type="text/javascript" src="../js/script.js"></script>
+        <div class="main__edit" id="editDiv"></div>
+        <div role="region" class="main__list" id="todoList">
+          <!-- <div class="list__todo" id="0">
+            <input type="checkbox" />
+            <div class="todo__content">
+              <p>Do Homework</p>
+              <p>Arabic , English and Math</p>
+              <p>12:5pm</p>
+            </div>
+            <div class="todo__buttons">
+              <button>Edit</button>
+              <button>Remove</button>
+            </div>
+          </div> -->
+        </div>
+      </main>
+      <script type="text/javascript" src="../js/script.js"></script>
+    </div>
   </body>
 </html>

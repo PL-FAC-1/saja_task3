@@ -1,122 +1,232 @@
-let button = document.getElementById("enter");
-let titleInput = document.getElementById("title");
-let descrptionInput = document.getElementById("descrption");
-let timeInput = document.getElementById("time");
-let list = document.getElementById("list");
-let lis = document.querySelectorAll("li");
-let removeButtons = document.getElementsByName("remove-button");
-let editButtons = document.getElementsByName("edit-button");
-let todos = document.getElementById("todos");
+const addButton = document.getElementById("addButton");
+const addForm = document.getElementById("addForm");
+const mainStatment = document.getElementById("mainStatment");
+const editDiv = document.getElementById("editDiv");
+const todoTitle = document.getElementById("todoTitle");
+const tododescription = document.getElementById("tododescription");
+const todoTime = document.getElementById("todoTime");
+const todoList = document.getElementById("todoList");
+const inputs = document.querySelectorAll(".addForm__input");
+const count = document.getElementById("count");
+const checkbox = document.getElementById("itemcheck");
 
-button.addEventListener("click", function (event) {
-  event.preventDefault();
-  if (lengthCheck() > 0) {
-    creteItemOnClick();
+addButton.addEventListener("click", () => (addForm.style.display = "flex"));
+let id = localStorage.getItem('counter');
+if (id === null) {
+    id = 0;
+} else {
+    id++;
+}
+localStorage.setItem("counter", id);
+let number = JSON.parse(window.localStorage.getItem("tasks")).length;
+let todos = [];
+
+todoList.addEventListener("click", (e) => {
+  if (e.target.className == "delete") {
+    deleteTodo(e.target.parentElement.parentElement.getAttribute("data-id"));
+    e.target.parentElement.parentElement.remove();
+  }
+  if (e.target.className == "edit") {
+    addForm.style.display = "none";
+    mainStatment.style.display = "none";
+    editDiv.style.display = "flex";
+    const id = e.target.parentElement.parentElement.getAttribute("data-id");
+    todos.forEach((todo) => {
+      if (todo.id == id) {
+        editTodo(todo);
+      }
+    });
+  }
+  if (e.target.className == "todo__checkBox") {
+    const id = e.target.parentElement.parentElement.getAttribute("data-id");
+    todos.map((todo) => {
+      if (todo.id == id) {
+        todo.checked = !todo.checked;
+        if (todo.checked) {
+          e.target.parentElement.parentElement.querySelector(
+            ".todo__content"
+          ).style.textDecoration = "line-through";
+        } else {
+          e.target.parentElement.parentElement.querySelector(
+            ".todo__content"
+          ).style.textDecoration = "none";
+        }
+      }
+    });
+    addToLocalStorage();
   }
 });
+
+if (localStorage.getItem("tasks")) {
+  todos = JSON.parse(localStorage.getItem("tasks"));
+  number = JSON.parse(window.localStorage.getItem("tasks")).length;
+  count.textContent = number;
+}
+
+getfromLocalStorage();
+
+addForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  id++;
+  AddToDo();
+  diplayToDos();
+  addToLocalStorage();
+});
 function lengthCheck() {
-  return title.value.length && descrption.value.length && time.value.length;
+  return (
+    todoTitle.value.length &&
+    tododescription.value.length &&
+    todoTime.value.length
+  );
 }
-let count = 0;
-function creteItemOnClick() {
-  let ul = document.createElement("ul");
-  ul.setAttribute("class", `ul${count}`);
-  let checkbox = document.createElement("input");
-  checkbox.setAttribute("type", "checkbox");
-  let title = document.createElement("li");
-  title.setAttribute("class", `titleul${count}`);
-  title.appendChild(document.createTextNode(titleInput.value));
-  let removeButton = document.createElement("button");
-  removeButton.setAttribute("name", "remove-button");
-  removeButton.appendChild(document.createTextNode("Remove"));
-  removeButton.setAttribute("class", `ul${count}`);
-  let editbutton = document.createElement("button");
-  editbutton.setAttribute("name", "edit-button");
-  editbutton.setAttribute("class", `ul${count}`);
-  editbutton.appendChild(document.createTextNode("Edit"));
-  let descrption = document.createElement("li");
-  descrption.appendChild(document.createTextNode(descrptionInput.value));
-  descrption.setAttribute("class", `descriptionul${count}`);
-  let time = document.createElement("li");
-  time.appendChild(document.createTextNode(timeInput.value));
-  time.setAttribute("class", `timeul${count}`);
-  ul.appendChild(checkbox);
-  ul.appendChild(title);
-  ul.appendChild(descrption);
-  ul.appendChild(time);
-  ul.appendChild(editbutton);
-  ul.appendChild(removeButton);
-  titleInput.value = "";
-  descrptionInput.value = "";
-  timeInput.value = "";
-  list.appendChild(ul);
-  count++;
-  todos.textContent = count;
-  removeElement();
-  EditElement();
-}
-function removeElement() {
-  removeButtons = document.getElementsByName("remove-button");
-  removeButtons.forEach((e) => {
-    e.removeEventListener("click", handleRemove);
-    e.addEventListener("click", handleRemove);
-  });
+function AddToDo() {
+  if (lengthCheck()) {
+    addForm.style.display = "none";
+    const title = todoTitle.value;
+    const description = tododescription.value;
+    const time = todoTime.value;
+    const todo = {
+      id: id,
+      title,
+      description,
+      time,
+      checked: false,
+    };
+    todos.push(todo);
+    inputs.forEach((e) => (e.value = ""));
+    number++;
+    count.textContent = number;
+  } else {
+    alert("plaese fill all fields");
+  }
 }
 
-function handleRemove() {
-  let e = this;
-  document.querySelector(`ul.${e.getAttribute("class")}`).remove();
-  count--;
-  todos.textContent = count;
-}
-
-function EditElement() {
-  editButtons = document.getElementsByName("edit-button");
-  editButtons.forEach((e) => {
-    e.removeEventListener("click", handleEdit);
-    e.addEventListener("click", handleEdit);
+function diplayToDos() {
+  todoList.innerHTML = "";
+  todos.forEach((todo) => {
+    let tododiv = document.createElement("div");
+    tododiv.className = "list__todo";
+    tododiv.setAttribute("data-id", todo.id);
+    let checkDiv = document.createElement("div");
+    checkDiv.className = "todo__check";
+    let checkLabel = document.createElement("label");
+    checkLabel.setAttribute("for", `itemcheck${todo.id}`);
+    checkLabel.innerHTML = "CheckTask";
+    let checkbox = document.createElement("input");
+    checkbox.setAttribute("type", "checkbox");
+    checkbox.setAttribute("id", `itemcheck${todo.id}`);
+    checkbox.className = "todo__checkBox";
+    checkbox.checked = todo.checked;
+    let todoContent = document.createElement("div");
+    todoContent.className = "todo__content";
+    checkbox.checked
+      ? (todoContent.style.textDecoration = "line-through")
+      : (todoContent.style.textDecoration = "none");
+    let title = document.createElement("p");
+    title.className = "todo__content__title";
+    title.appendChild(document.createTextNode(todo.title));
+    let description = document.createElement("p");
+    description.className = "todo__content__description";
+    description.appendChild(document.createTextNode(todo.description));
+    let time = document.createElement("p");
+    time.appendChild(document.createTextNode(todo.time));
+    time.className = "todo__content__time";
+    todoContent.append(title, description, time);
+    let todo__buttons = document.createElement("div");
+    todo__buttons.className = "todo__buttons";
+    let edit = document.createElement("button");
+    edit.appendChild(document.createTextNode("Edit"));
+    edit.className = "edit";
+    let remove = document.createElement("button");
+    remove.appendChild(document.createTextNode("Delete"));
+    remove.className = "delete";
+    todo__buttons.append(edit, remove);
+    checkDiv.append(checkLabel, checkbox);
+    todoList.appendChild(tododiv);
+    tododiv.append(checkDiv, todoContent, todo__buttons);
   });
 }
-function handleEdit(event) {
-  event.stopPropagation();
-  let e = this;
-  e.disabled = true;
-  let EditBlock = document.createElement("div");
-  console.log(e.getAttribute("class"));
-  EditBlock.setAttribute("class", e.getAttribute("class"));
+function addToLocalStorage() {
+  window.localStorage.setItem("tasks", JSON.stringify(todos));
+
+}
+function getfromLocalStorage() {
+  let data = window.localStorage.getItem("tasks");
+  if (data) {
+    let tasks = JSON.parse(data);
+    diplayToDos(tasks);
+  }
+}
+function deleteTodo(todoId) {
+  todos = todos.filter((todo) => todo.id != todoId);
+  addToLocalStorage(todos);
+  number--;
+  count.textContent = number;
+}
+
+function editTodo(todo) {
+  editDiv.innerHTML="";
+  let editForm = document.createElement("form");
+  editForm.className = "main__editForm";
+  let titlelabel = document.createElement("label");
+  titlelabel.setAttribute("for", "title");
+  titlelabel.textContent = "Title:";
   let titleInput = document.createElement("input");
-  titleInput.setAttribute("class", `title${e.getAttribute("class")}`);
-  titleInput.placeholder = "Enter title edit";
-  let desInput = document.createElement("input");
-  desInput.setAttribute("class", `description${e.getAttribute("class")}`);
-  desInput.placeholder = "enter descrition edit";
+  titleInput.setAttribute("type", "text");
+  titleInput.setAttribute("id", "title");
+  titleInput.className = "editform__input";
+  titleInput.value = todo.title;
+  let descritionlabel = document.createElement("label");
+  descritionlabel.setAttribute("for", "description");
+  descritionlabel.textContent = "Description:";
+  let descriptionInput = document.createElement("input");
+  descriptionInput.setAttribute("type", "text");
+  descriptionInput.setAttribute("id", "description");
+  descriptionInput.value = todo.description;
+  descriptionInput.className = "editform__input";
+  let timelabel = document.createElement("label");
+  timelabel.setAttribute("for", "time");
+  timelabel.textContent = "Time:";
   let timeInput = document.createElement("input");
-  timeInput.setAttribute("class", `time${e.getAttribute("class")}`);
-  timeInput.placeholder = "enter time edit";
-  let save = document.createElement("button");
-  save.appendChild(document.createTextNode("save"));
-  EditBlock.appendChild(titleInput);
-  EditBlock.appendChild(desInput);
-  EditBlock.appendChild(timeInput);
-  EditBlock.appendChild(save);
-  e.parentElement.appendChild(EditBlock);
-  save.addEventListener("click", function () {
-    e.parentElement.querySelector(
-      `li.title${e.getAttribute("class")}`
-    ).textContent = e.parentElement.querySelector(
-      `input.title${e.getAttribute("class")}`
-    ).value;
-    e.parentElement.querySelector(
-      `li.description${e.getAttribute("class")}`
-    ).textContent = e.parentElement.querySelector(
-      `input.description${e.getAttribute("class")}`
-    ).value;
-    e.parentElement.querySelector(
-      `li.time${e.getAttribute("class")}`
-    ).textContent = e.parentElement.querySelector(
-      `input.time${e.getAttribute("class")}`
-    ).value;
-    EditBlock.remove();
-    e.disabled = false;
+  timeInput.className = "editform__input";
+  timeInput.setAttribute("type", "time");
+  timeInput.setAttribute("id", "time");
+  timeInput.value = todo.time;
+  let saveButton = document.createElement("input");
+  saveButton.setAttribute("type", "submit");
+  saveButton.value = "Save";
+  saveButton.className = "editform__save";
+  editForm.append(
+    titlelabel,
+    titleInput,
+    descritionlabel,
+    descriptionInput,
+    timelabel,
+    timeInput,
+    saveButton
+  );
+  editDiv.appendChild(editForm);
+  editForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    todos.map((todoItem) => {
+      if (todoItem.id == todo.id) {
+        todoItem.title = titleInput.value;
+        todoItem.description = descriptionInput.value;
+        todoItem.time = timeInput.value;
+      }
+    });
+    mainStatment.style.display = "flex";
+    editForm.remove();
+    addToLocalStorage(todos);
+    getfromLocalStorage();
   });
 }
+// editDiv.innerHTML += `<form class="main__editForm">
+//   <label for="title">Title:</label>
+//   <input type="text" id="title" class="editform__input" value="${todo.title}">
+//   <label for="description">Description:</label>
+//   <input type="text" id="description" class="editform__input" value="${todo.description}"/>
+//   <label for="time">Time::</label>
+//   <input type="text" id="time" class="editform__input" value="${todo.time}"/>
+//   <input type="submit" value="save" class="editform__save"/>
+// </form>`;

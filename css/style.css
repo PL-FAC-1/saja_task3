@@ -2,63 +2,149 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
+  gap: 2rem;
+  padding: 5rem 10rem;
+}
+.body__div {
+  background-color: aliceblue;
+  border: 3px solid #010833;
+  border-radius: 5px;
 }
 .header {
   display: flex;
+  text-transform: uppercase;
+  font-family: "Courier New", Courier, monospace;
   justify-content: center;
-  border-bottom: 1px solid black;
-  font-size: 150%;
+  align-items: center;
+  color: #010833;
+  border-bottom: 2px solid #010833;
+  margin: 2rem;
 }
-.main__count{
-    display: flex;
-    justify-content: center;
-    font-size: 2rem;
-}
-.main__form {
-  display: flex;
+.main__addForm {
+  display: none;
   flex-direction: column;
-  padding : 4vw 30vw;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
 }
-.form__submit{
-    margin: 0 15vw;
-    border:1px solid black;
-    padding:0.5rem; 
-    border-radius: 10px;
-}
-.form__input{
-    padding:0.5rem;
-    border:1px solid black;
-    border-radius: 10px;
 
+.addForm__input {
+  border: 1px solid black;
+  width: 30vw;
+  padding: 2vh 2vw;
+  border-radius: 2px;
 }
-.main__list{
-    display: flex;
-    flex-direction: column;
-    padding : 4vw 30vw;
-    gap: 4rem;
+.addForm__submit {
+  border: 1px solid white;
+  width: 10vw;
+  padding: 1vh 0;
+  border-radius: 10px;
+  color: white;
+  background-color: #010833;
 }
-ul{
-    display:flex;
-    list-style: none;
-    gap:4.5rem;
-    flex-wrap: wrap;
-}
-ul div {
-    display: flex;
-    flex-direction: column;
-    gap:2rem;
-    flex-wrap: wrap;
-    
-}
-input{
-    padding:0.5rem;
-    border:1px solid black;
-    border-radius: 10px;
+.list__todo {
+  display: flex;
+  justify-content: center;
+  gap: 10rem;
 }
 
-button{
-    border:1px solid black;
-    padding:0.5rem; 
-    border-radius: 10px;
+.todo__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.main__paragraph {
+  display: flex;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Courier New", Courier, monospace;
+  color: #010833;
+}
+.todo__check {
+  display: flex;
+  flex-direction: column;
+}
+.paragraph__button {
+  margin: 1rem;
+  background-color: #010833;
+  border: 1px solid #010833;
+  color: aliceblue;
+  border-radius: 5px;
+}
+
+.main__list {
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+.todo__content__title {
+  font-weight: bold;
+  padding-bottom: 10px;
+  color: #010833;
+}
+
+.list__todo {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid #ccc;
+  padding: 10px;
+  align-items: center;
+}
+
+.todo__checkBox {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.todo__content {
+  flex-grow: 1;
+}
+.todo__buttons button {
+  margin-right: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #010833;
+  border: 1px solid #010833;
+  color: aliceblue;
+  border-radius: 5px;
+}
+
+.todo__buttons button:hover {
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.todo__buttons button:hover {
+  transform: scale(1.1);
+}
+.main__edit {
+  display: none;
+  justify-content: center;
+}
+.main__editForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.editform__input {
+  border: 1px solid black;
+  width: 30vw;
+  padding: 2vh 2vw;
+  border-radius: 2px;
+}
+.editform__save {
+  border: 1px solid white;
+  width: 10vw;
+  padding: 1vh 0;
+  border-radius: 10px;
+  color: white;
+  background-color: #010833;
 }
