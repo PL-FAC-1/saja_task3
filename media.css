@@ -1,0 +1,25 @@
+@media (max-width: 1000px) {
+  .body {
+    padding: 2rem 4rem;
+  }
+  .todo__content {
+    text-align: center;
+  }
+  .list__todo {
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .main__paragraph {
+    font-size: 15px;
+    gap: 0rem;
+  }
+}
+
+@media (min-width: 1001px) and (max-width: 1300px) {
+  .list__todo {
+    gap: 1rem;
+    justify-content: center;
+  }
+}
