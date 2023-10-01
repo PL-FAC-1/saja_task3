@@ -14,11 +14,10 @@ addButton.addEventListener("click", () => (addForm.style.display = "flex"));
 let id = localStorage.getItem("counter");
 if (id === null) {
   id = 0;
-} else {
-  id++;
 }
 localStorage.setItem("counter", id);
-let number = JSON.parse(window.localStorage.getItem("tasks")).length;
+let number = JSON.parse(window.localStorage.getItem("tasks"));
+number=number?number.length:0;
 let todos = [];
 
 todoList.addEventListener("click", (e) => {
@@ -68,6 +67,7 @@ getfromLocalStorage();
 addForm.addEventListener("submit", (event) => {
   event.preventDefault();
   id++;
+  localStorage.setItem("counter", id);
   AddToDo();
   diplayToDos();
   addToLocalStorage();
@@ -158,6 +158,8 @@ function getfromLocalStorage() {
 function deleteTodo(todoId) {
   todos = todos.filter((todo) => todo.id != todoId);
   addToLocalStorage(todos);
+  id--;
+  localStorage.setItem("counter", id);
   number--;
   count.textContent = number;
 }
